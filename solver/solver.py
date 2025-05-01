@@ -1,7 +1,7 @@
 # solver.py
 # aka dfs
 
-from solver.board import Board
+from solver.board import Board 
 from solver.trie import build_trie_from_file, Trie
 
 def find_words(board: Board, trie: Trie, min_length: int = 3) -> set[str]:
@@ -16,17 +16,17 @@ def find_words(board: Board, trie: Trie, min_length: int = 3) -> set[str]:
     Returns:
         A set of found words.
     """
-    found: set[str] = set()
-    size = board.size
+    found: set[str] = set() # Set to store found words
+    size = board.size # Size of the board
 
-    def backtrack(r: int, c: int, node, path: set[tuple[int, int]], word: str):  # DFS
-        letter = board.grid[r][c]
-        if letter not in node.children:
+    def backtrack(r: int, c: int, node, path: set[tuple[int, int]], word: str):  # DFS 
+        letter = board.grid[r][c] # Current letter
+        if letter not in node.children:     # If letter not in Trie, stop search
             return
 
-        node = node.children[letter]
-        word += letter
-        path.add((r, c))
+        node = node.children[letter] # Move to the next Trie node
+        word += letter # Add letter to current word
+        path.add((r, c)) # Add current cell to path
 
         # Record valid word
         if node.is_word and len(word) >= min_length:
@@ -48,7 +48,7 @@ def find_words(board: Board, trie: Trie, min_length: int = 3) -> set[str]:
     return found
 
 
-def suggest_word(found_words: set[str], already_found: set[str]) -> str:
+def suggest_word(found_words: set[str], already_found: set[str]) -> str:    # method to suggest a word
     """
     Suggest a word from the set of found words that has not yet been found by the user.
 
@@ -59,5 +59,5 @@ def suggest_word(found_words: set[str], already_found: set[str]) -> str:
     Returns:
         A single word suggestion or None if no suggestions are available.
     """
-    suggestions = found_words - already_found
-    return next(iter(suggestions), None)
+    suggestions = found_words - already_found # Get words not already found
+    return next(iter(suggestions), None) # Return first suggestion or None if empty

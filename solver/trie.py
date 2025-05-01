@@ -22,22 +22,22 @@ class Trie: # A Trie data structure for storing words
         """
         Return True if the exact word exists in the trie.
         """
-        node = self.root
-        for char in word:
-            if char not in node.children:
-                return False
-            node = node.children[char]
+        node = self.root # Start from the root node
+        for char in word: # Loop through each character in the word
+            if char not in node.children: # If character not found in children, word doesn't exist
+                return False # Word not found
+            node = node.children[char] # Move to the next node
         return node.is_word
 
     def starts_with(self, prefix: str) -> bool: # prefix search
         """
         Return True if there is any word in the trie that starts with the given prefix.
         """
-        node = self.root
-        for char in prefix:
-            if char not in node.children:
+        node = self.root # Start from the root node
+        for char in prefix: # Loop through each character in the prefix
+            if char not in node.children: # If character not found in children, no word starts with this prefix
                 return False
-            node = node.children[char]
+            node = node.children[char] # Move to the next node
         return True
 
 
@@ -46,11 +46,11 @@ def build_trie_from_file(filepath: str) -> Trie: # Build a Trie from a file cont
     Build a Trie from a newline-separated word list file.
     Words are normalized to uppercase and stripped of whitespace.
     """
-    trie = Trie()
+    trie = Trie() # Create a new Trie instance
     with open(filepath, 'r') as f:
-        for line in f:
-            word = line.strip().upper()
-            if word:
+        for line in f: # Read each line from the file
+            word = line.strip().upper() # Normalize the word to uppercase and strip whitespace
+            if word: # If the word is not empty, insert it into the Trie
                 trie.insert(word)
     return trie
 

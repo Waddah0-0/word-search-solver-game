@@ -9,7 +9,7 @@ from solver.solver import find_words
 # 6 letters: 3 points
 # 7 letters: 5 points
 # 8+ letters: 11 points
-SCORING = {
+SCORING = { 
     3: 1,
     4: 1,
     5: 2,
@@ -36,7 +36,7 @@ def play_game(board_size: int = 4, time_limit: int = 180): # Main game loop
 
     # 2) User input phase
     start = time.time()
-    entered = set()
+    entered = set() # Set to store entered words
     while time.time() - start < time_limit:
         remaining = int(time_limit - (time.time() - start))
         guess = input(f"{remaining}s left, enter word (or just Enter to finish): ").strip().upper()
