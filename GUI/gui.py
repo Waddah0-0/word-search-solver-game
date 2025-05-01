@@ -1,10 +1,18 @@
 import tkinter as tk 
 from tkinter import messagebox 
-import time 
+import time
+import sys
+import os
 
+# Add the parent directory of 'solver' to the Python path
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+# Ensure the 'solver' module is accessible
+if not os.path.exists(os.path.join(os.path.dirname(__file__), '..', 'solver')):
+    raise ImportError("The 'solver' module could not be found. Ensure it exists in the parent directory.")
 from solver.board import Board
 from solver.trie import build_trie_from_file
 from solver.solver import find_words
+from solver.board import Board
 
 # Boggle scoring rules
 SCORING = {3: 1, 4: 1, 5: 2, 6: 3, 7: 5}
