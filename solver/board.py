@@ -14,7 +14,7 @@ class Board:
         else:
             self.grid = [
                 [random.choice(string.ascii_uppercase) for _ in range(size)]
-                for _ in range(size)
+                for _ in range(size) 
             ]
 
     def __str__(self):
@@ -32,6 +32,6 @@ class Board:
                 if dr == 0 and dc == 0:
                     continue
                 nr, nc = r + dr, c + dc
-                if 0 <= nr < self.size and 0 <= nc < self.size:
+                if 0 <= nr < self.size and 0 <= nc < self.size: 
                     neighbors.append((nr, nc))
-        return neighbors
+        return neighbors 
