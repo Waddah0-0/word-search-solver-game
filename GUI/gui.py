@@ -11,8 +11,7 @@ if not os.path.exists(os.path.join(os.path.dirname(__file__), '..', 'solver')):
     raise ImportError("The 'solver' module could not be found. Ensure it exists in the parent directory.")
 from solver.board import Board
 from solver.trie import build_trie_from_file
-from solver.solver import find_words
-from solver.board import Board
+from solver.solver import find_words, suggest_word
 
 # Boggle scoring rules
 SCORING = {3: 1, 4: 1, 5: 2, 6: 3, 7: 5}
@@ -29,10 +28,19 @@ class BoggleGUI(tk.Tk): # Boggle game GUI
         self.all_valid = set()
         self.found = set()
         self.score = 0
+        self.mode = "user"  # Default mode
         self.create_widgets()
 
     def create_widgets(self): # Create GUI components
-        # Title label
+        # Mode selection
+        mode_frame = tk.Frame(self)
+        mode_frame.pack(pady=5)
+        tk.Label(mode_frame, text="Select Mode:").pack(side=tk.LEFT, padx=5)
+        self.mode_var = tk.StringVar(value="user")
+        tk.Radiobutton(mode_frame, text="User", variable=self.mode_var, value="user").pack(side=tk.LEFT)
+        tk.Radiobutton(mode_frame, text="AI Solve", variable=self.mode_var, value="ai").pack(side=tk.LEFT)
+        tk.Radiobutton(mode_frame, text="Assisted", variable=self.mode_var, value="assist").pack(side=tk.LEFT)
+
         # Board frame
         self.board_frame = tk.Frame(self)
         self.board_frame.pack(pady=10)
@@ -70,8 +78,15 @@ class BoggleGUI(tk.Tk): # Boggle game GUI
 
     def start_game(self): # Start a new game
         # Initialize game
+        self.mode = self.mode_var.get()  # Get selected mode
         self.board = Board(size=self.board_size)
-        self.trie = build_trie_from_file('words.txt')
+        words_file_path = os.path.join(os.path.dirname(__file__), '..', 'words.txt')
+        if not os.path.exists(words_file_path):
+            messagebox.showerror("Error", "The 'words.txt' file is missing. Please add it to the project directory.")
+            self.start_btn.config(state="normal")
+            return
+
+        self.trie = build_trie_from_file(words_file_path)
         self.all_valid = find_words(self.board, self.trie)
         self.found.clear()
         self.score = 0
@@ -87,7 +102,30 @@ class BoggleGUI(tk.Tk): # Boggle game GUI
         self.entry.focus()
         self.start_btn.config(state="disabled")
         self.update_info()
-        self.after(1000, self.countdown)
+
+        if self.mode == "ai":
+            self.solve_with_ai()
+        elif self.mode == "assist":
+            self.after(5000, self.suggest_word)  # Suggest a word every 5 seconds
+        else:
+            self.after(1000, self.countdown)
+
+    def solve_with_ai(self):
+        """AI solves the board and displays all valid words."""
+        self.listbox.delete(0, tk.END)
+        for word in sorted(self.all_valid):
+            pts = SCORING.get(len(word), 11 if len(word) >= 8 else 0)
+            self.listbox.insert(tk.END, f"{word} (+{pts})")
+        messagebox.showinfo("AI Solve", f"AI found {len(self.all_valid)} words! Total score: {sum(SCORING.get(len(w), 11 if len(w) >= 8 else 0) for w in self.all_valid)}")
+        self.start_btn.config(state="normal")
+
+    def suggest_word(self):
+        """Suggest a word to the user in Assisted mode."""
+        if self.mode == "assist" and self.remaining > 0:
+            suggestion = suggest_word(self.all_valid, self.found)
+            if suggestion:
+                messagebox.showinfo("Suggestion", f"Try this word: {suggestion}")
+            self.after(5000, self.suggest_word)  # Continue suggesting words
 
     def submit_word(self): # Handle word submission
         # Get word from entry, check validity, and update score
