@@ -164,5 +164,5 @@ class BoggleGUI(tk.Tk):
         self.start_btn.config(state="normal") # Enable the start button again
 
 if __name__ == '__main__': 
-    app = BoggleGUI(board_size=4, time_limit=120)
+    app = BoggleGUI(board_size=4, time_limit=180)
     app.mainloop()
