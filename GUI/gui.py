@@ -21,7 +21,7 @@ SCORING = {3: 1, 4: 1, 5: 2, 6: 3, 7: 5} # Scoring dictionary for word lengths
 class BoggleGUI(tk.Tk):
     def __init__(self, board_size=4, time_limit=180):
         super().__init__()
-        self.title("AL Dar Word Game") # Set the title of the window
+        self.title("word search game") # Set the title of the window
         self.style = ttk.Style(self)    # Create a style object for the GUI
         self.style.theme_use("clam")  # Use a modern theme
         self.board_size = board_size    # Set the size of the Boggle board
