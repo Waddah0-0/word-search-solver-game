@@ -48,7 +48,7 @@ class BoggleGUI(tk.Tk):
         self.letter_labels = [[None] * self.board_size for _ in range(self.board_size)] # Create a 2D list for letter labels
         for i in range(self.board_size): # Loop through the rows of the board
             for j in range(self.board_size): # Loop through the columns of the board
-                lbl = ttk.Label(self.board_frame, text=" ", width=4, anchor="center", 
+                lbl = ttk.Label(self.board_frame, text=" ", width=4, anchor="center", background="lightblue",
                                 font=("Helvetica", 20), relief="ridge", borderwidth=2) # Create a label for each letter
                 lbl.grid(row=i, column=j, padx=2, pady=2) # Place the label in the grid
                 self.letter_labels[i][j] = lbl # Store the label in the 2D list
