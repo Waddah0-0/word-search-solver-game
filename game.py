@@ -32,7 +32,7 @@ def play_game(board_size: int = 4, time_limit: int = 180): # Main game loop
     entered = set() # Set to store entered words
     while time.time() - start < time_limit: 
         remaining = int(time_limit - (time.time() - start))
-        guess = input(f"{remaining}s left, enter word (or just Enter to finish): ").strip().upper()
+        guess =  input(f"{remaining}s left, enter word (or just Enter to finish): ").strip().upper()
         if not guess:
             break
         if guess in entered:
