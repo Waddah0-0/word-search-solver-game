@@ -1,6 +1,6 @@
 class TrieNode: # A single node in the Trie
     def __init__(self): # Initialize a TrieNode with an empty dictionary for children and a boolean for word end
-        self.children: dict[str, TrieNode] = {}
+        self.children: dict[str, TrieNode] = {} # Dictionary to store child nodes
         self.is_word: bool = False
 
 class Trie: # A Trie data structure for storing words
@@ -8,20 +8,14 @@ class Trie: # A Trie data structure for storing words
         self.root = TrieNode()
 
     def insert(self, word: str) -> None: # Insert a word into the Trie
-        """
-        Insert a word into the trie.
-        """
         node = self.root
         for char in word:
-            if char not in node.children:
-                node.children[char] = TrieNode()
-            node = node.children[char]
-        node.is_word = True
+            if char not in node.children: 
+                node.children[char] = TrieNode()  
+            node = node.children[char]   
+        node.is_word = True 
 
     def search(self, word: str) -> bool: # exact word search
-        """
-        Return True if the exact word exists in the trie.
-        """
         node = self.root # Start from the root node
         for char in word: # Loop through each character in the word
             if char not in node.children: # If character not found in children, word doesn't exist
@@ -30,24 +24,17 @@ class Trie: # A Trie data structure for storing words
         return node.is_word
 
     def starts_with(self, prefix: str) -> bool: # prefix search
-        """
-        Return True if there is any word in the trie that starts with the given prefix.
-        """
         node = self.root # Start from the root node
         for char in prefix: # Loop through each character in the prefix
             if char not in node.children: # If character not found in children, no word starts with this prefix
                 return False
             node = node.children[char] # Move to the next node
-        return True
+        return True 
 
 
-def build_trie_from_file(filepath: str) -> Trie: # Build a Trie from a file containing newline-separated words
-    """
-    Build a Trie from a newline-separated word list file.
-    Words are normalized to uppercase and stripped of whitespace.
-    """
+def build_trie_from_file(filepath: str) -> Trie: 
     trie = Trie() # Create a new Trie instance
-    with open(filepath, 'r') as f:
+    with open(filepath, 'r') as f:  
         for line in f: # Read each line from the file
             word = line.strip().upper() # Normalize the word to uppercase and strip whitespace
             if word: # If the word is not empty, insert it into the Trie
@@ -63,4 +50,4 @@ if __name__ == '__main__':
     # Quick checks
     sample = ['TREE', 'TRICK', 'XYZ']
     for w in sample:
-        print(f"{w}: in dictionary? {trie.search(w)} | starts with 'T'? {trie.starts_with('T')}")
+        print(f"{w}: in dictionary? {trie.search(w)} | starts with 'T'? {trie.starts_with('T')} ")

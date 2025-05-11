@@ -3,12 +3,6 @@ from solver.board import Board
 from solver.trie import build_trie_from_file
 from solver.solver import find_words
 
-# Scoring rules for Boggle (example):
-# 3-4 letters: 1 point
-# 5 letters: 2 points
-# 6 letters: 3 points
-# 7 letters: 5 points
-# 8+ letters: 11 points
 SCORING = { 
     3: 1,
     4: 1,
@@ -19,11 +13,10 @@ SCORING = {
 
 
 def score_word(word: str) -> int: # Calculate score for a word based on its length
-    return SCORING.get(len(word), 11 if len(word) >= 8 else 0)
+    return SCORING.get(len(word), 11 if len(word) >= 8 else 0) 
 
 
 def play_game(board_size: int = 4, time_limit: int = 180): # Main game loop
-    # 1) Setup
     board = Board(size=board_size)
     trie = build_trie_from_file('words.txt')
     all_valid = find_words(board, trie)
@@ -37,7 +30,7 @@ def play_game(board_size: int = 4, time_limit: int = 180): # Main game loop
     # 2) User input phase
     start = time.time()
     entered = set() # Set to store entered words
-    while time.time() - start < time_limit:
+    while time.time() - start < time_limit: 
         remaining = int(time_limit - (time.time() - start))
         guess = input(f"{remaining}s left, enter word (or just Enter to finish): ").strip().upper()
         if not guess:

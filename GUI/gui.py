@@ -5,10 +5,6 @@ import time # For time-related functions
 import random  # For random number generation
 import sys # For system-specific parameters and functions
 import os # For file and directory manipulation
-# Also ensures the script is run from the correct directory
-
-
-# Adds the parent directory of 'solver' to the Python path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 if not os.path.exists(os.path.join(os.path.dirname(__file__), '..', 'solver')):
     raise ImportError("The 'solver' module could not be found. Ensure it exists in the parent directory.")
@@ -21,7 +17,7 @@ SCORING = {3: 1, 4: 1, 5: 2, 6: 3, 7: 5} # Scoring dictionary for word lengths
 class BoggleGUI(tk.Tk):
     def __init__(self, board_size=4, time_limit=180):
         super().__init__()
-        self.title("word search game") # Set the title of the window
+        self.title("word search game") 
         self.style = ttk.Style(self)    # Create a style object for the GUI
         self.style.theme_use("clam")  # Use a modern theme
         self.board_size = board_size    # Set the size of the Boggle board
@@ -108,9 +104,9 @@ class BoggleGUI(tk.Tk):
 
         if self.mode == "ai": # If AI mode is selected
             self.solve_with_ai()
-        elif self.mode == "assist": # If assisted mode is selected
+        elif self.mode == "assist": #assisted mode
             self.after(5000, self.suggest_word)
-        else: # If user mode is selected
+        else: # user mode
             self.after(1000, self.countdown)
 
     def solve_with_ai(self): # Method to solve the game using AI

@@ -3,11 +3,6 @@ import string
 
 class Board: 
     def __init__(self, size=4, letters=None): # Create the board.
-        """
-        Create a size×size board.
-        If `letters` is provided, it must be a list of lists of single chars.
-        Otherwise we’ll fill with random uppercase English letters.
-        """
         self.size = size # Size of the board
         if letters: # If letters are provided, use them to create the board
             self.grid = letters # Create the grid with provided letters
@@ -23,9 +18,6 @@ class Board:
         return "\n".join(rows)
 
     def get_neighbors(self, r, c): # Get neighbors of a cell
-        """
-        Return a list of (nr, nc) for all valid neighbors of cell (r,c).
-        """
         neighbors = [] # List to store neighbors
         for dr in (-1, 0, 1): # Loop through possible row offsets
             for dc in (-1, 0, 1): # Loop through possible column offsets
@@ -35,3 +27,10 @@ class Board:
                 if 0 <= nr < self.size and 0 <= nc < self.size:  # Check if within bounds
                     neighbors.append((nr, nc)) # Add valid neighbor to the list
         return neighbors 
+
+# Example usage
+if __name__ == '__main__':
+    board = Board(size=4) 
+    print(board) 
+    print(board.get_neighbors(1, 1)) 
+    print(board.get_neighbors(0, 0)) 

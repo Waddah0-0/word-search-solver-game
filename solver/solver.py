@@ -2,20 +2,9 @@
 # aka dfs
 
 from solver.board import Board 
-from solver.trie import build_trie_from_file, Trie
+from solver.trie import Trie
 
 def find_words(board: Board, trie: Trie, min_length: int = 3) -> set[str]:
-    """
-    Backtracking search on the Boggle board to find all valid words using a Trie for prefix pruning.
-
-    Parameters:
-        board: Board        – your game board
-        trie: Trie          – dictionary Trie loaded from words.txt
-        min_length: int     – minimum word length to include
-
-    Returns:
-        A set of found words.
-    """
     found: set[str] = set() # Set to store found words
     size = board.size # Size of the board
 
@@ -49,15 +38,5 @@ def find_words(board: Board, trie: Trie, min_length: int = 3) -> set[str]:
 
 
 def suggest_word(found_words: set[str], already_found: set[str]) -> str:    # method to suggest a word
-    """
-    Suggest a word from the set of found words that has not yet been found by the user.
-
-    Parameters:
-        found_words: set[str] – All valid words found by the AI.
-        already_found: set[str] – Words already found by the user.
-
-    Returns:
-        A single word suggestion or None if no suggestions are available.
-    """
     suggestions = found_words - already_found # Get words not already found
     return next(iter(suggestions), None) # Return first suggestion or None if empty
